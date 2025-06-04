@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Standeva</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: #0f1127;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 2rem;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+            background: #cadb2a;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #cadb2a;
+            text-decoration: none;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #cadb2a;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 0.75rem;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+        }
+
+        .btn-primary {
+            background: #cadb2a;
+            color: #0f1127;
+        }
+
+        .btn-primary:hover {
+            background: #b8c926;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #cadb2a;
+            border: 1.5px solid #cadb2a;
+        }
+
+        .btn-outline:hover {
+            background: #cadb2a;
+            color: #0f1127;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+            position: relative;
+            width: 28px;
+            height: 28px;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mobile-menu span {
+            width: 22px;
+            height: 2.5px;
+            background: #cadb2a;
+            margin: 2.5px 0;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .mobile-menu.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(15, 17, 39, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav-menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .mobile-nav-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-nav-menu li {
+            margin: 1.5rem 0;
+        }
+
+        .mobile-nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: color 0.3s ease;
+            font-family: 'Orbitron', monospace;
+            display: block;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-menu a:hover {
+            color: #cadb2a;
+            background: rgba(202, 219, 42, 0.1);
+        }
+
+        .mobile-cta-buttons {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .mobile-cta-buttons .btn {
+            width: 200px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0f1127 0%, #1a1f3a 100%);
+            color: white;
+            padding: 140px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23cadb2a" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23cadb2a" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="%23cadb2a" opacity="0.1"/><circle cx="10" cy="60" r="1" fill="%23cadb2a" opacity="0.1"/><circle cx="90" cy="40" r="1" fill="%23cadb2a" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .hero .highlight {
+            color: #cadb2a;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Mission Section */
+        .mission {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .mission-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .mission-text h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .mission-text p {
+            color: #64748b;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(15, 17, 39, 0.1);
+        }
+
+        .mission-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        /* Values Section */
+        .values {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            border-color: #cadb2a;
+            box-shadow: 0 10px 30px rgba(15, 17, 39, 0.1);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #cadb2a, #b8c926);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: #0f1127;
+        }
+
+        .value-card h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .value-card p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Story Section */
+        .story {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #0f1127 0%, #1a1f3a 100%);
+            color: white;
+        }
+
+        .story .section-title h2 {
+            color: #cadb2a;
+        }
+
+        .story .section-title p {
+            color: #ffffff;
+            opacity: 0.9;
+        }
+
+        .story-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 2rem;
+        }
+
+        .story-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 2px;
+            background: #cadb2a;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            background: rgba(26, 31, 58, 0.8);
+            padding: 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(202, 219, 42, 0.2);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 2rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #cadb2a;
+            border: 3px solid #0f1127;
+        }
+
+        .timeline-year {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #cadb2a;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .timeline-item h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timeline-item p {
+            color: #ffffff;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        /* Team Section */
+        .team {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(15, 17, 39, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            border-color: #cadb2a;
+        }
+
+        .team-image {
+            height: 250px;
+            background: linear-gradient(135deg, #0f1127 0%, #1a1f3a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .team-content h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .team-role {
+            color: #cadb2a;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .team-content p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .team-social a {
+            color: #64748b;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .team-social a:hover {
+            color: #cadb2a;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: #cadb2a;
+            color: #0f1127;
+            padding: 60px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: #0f1127;
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .contact-info p {
+            color: #64748b;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-item i {
+            color: #cadb2a;
+            font-size: 1.5rem;
+            width: 30px;
+        }
+
+        .contact-item div h4 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f1127;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-item div p {
+            color: #64748b;
+            margin: 0;
+        }
+
+        .contact-form {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form:hover {
+            border-color: #cadb2a;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #0f1127;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid rgba(15, 17, 39, 0.1);
+            border-radius: 8px;
+            background: white;
+            color: #0f1127;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #cadb2a;
+            box-shadow: 0 0 0 3px rgba(202, 219, 42, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(15, 17, 39, 0.5);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f1127;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 1rem;
+            color: #cadb2a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #cadb2a;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #1a1f3a;
+            padding-top: 2rem;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .cta-buttons {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .nav-container {
+                padding: 0.75rem 1rem;
+                justify-content: space-between;
+            }
+
+            .logo-container {
+                gap: 0.5rem;
+            }
+
+            .logo-text {
+                font-size: 1.3rem;
+                letter-spacing: 1px;
+            }
+
+            .logo-icon {
+                width: 32px;
+                height: 32px;
+            }
+
+            .hero {
+                padding: 120px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .mission-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .mission-image {
+                order: -1;
+            }
+
+            .mission-image img {
+                height: 300px;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+
+            .story-timeline {
+                padding-left: 1.5rem;
+            }
+
+            .timeline-item {
+                padding: 1.5rem;
+            }
+
+            .timeline-item::before {
+                left: -1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0.5rem 1rem;
+            }
+
+            .logo-text {
+                font-size: 1.1rem;
+                letter-spacing: 0.5px;
+            }
+
+            .logo-icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            .hero {
+                padding: 100px 0 50px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+                letter-spacing: 1px;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .mission-text h3 {
+                font-size: 1.6rem;
+            }
+
+            .value-card {
+                padding: 1.5rem;
+            }
+
+            .team-image {
+                height: 200px;
+            }
+
+            .timeline-item {
+                padding: 1.25rem;
+            }
+
+            .timeline-year {
+                font-size: 1.3rem;
+            }
+
+            .timeline-item h3 {
+                font-size: 1.1rem;
+            }
+
+            .contact-info h3 {
+                font-size: 1.6rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mobile-nav-menu a {
+                font-size: 1.1rem;
+                letter-spacing: 1px;
+            }
+
+            .mobile-cta-buttons .btn {
+                width: 180px;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .logo-text {
+                font-size: 1rem;
+            }
+
+            .logo-icon {
+                width: 26px;
+                height: 26px;
+            }
+
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+
+            .mobile-nav-menu a {
+                font-size: 1rem;
+            }
+
+            .mobile-cta-buttons .btn {
+                width: 160px;
+                font-size: 0.75rem;
+            }
+
+            .timeline-item {
+                padding: 1rem;
+            }
+
+            .contact-form {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <img src="/images/standevalogo.jpg" alt="Standeva Logo">
+                </div>
+                <a href="index.html" class="logo-text">Standeva</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="hackathons.html">Hackathons</a></li>
+                <li><a href="index.html#training">Training</a></li>
+                <li><a href="index.html#community">Community</a></li>
+                <li><a href="index.html#events">Events</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+            </ul>
+            <div class="cta-buttons">
+                <a href="sign-in.html" class="btn btn-outline">Sign In</a>
+                <a href="join.html" class="btn btn-primary">Join Now</a>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+        
+        <!-- Mobile Navigation Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <div class="mobile-nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="hackathons.html">Hackathons</a></li>
+                    <li><a href="index.html#training">Training</a></li>
+                    <li><a href="index.html#community">Community</a></li>
+                    <li><a href="index.html#events">Events</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                <div class="mobile-cta-buttons">
+                    <a href="sign-in.html" class="btn btn-outline">Sign In</a>
+                    <a href="join.html" class="btn btn-primary">Join Now</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>About <span class="highlight">Standeva</span></h1>
+            <p>We're on a mission to empower the next generation of tech innovators through world-class hackathons, comprehensive training programs, and a vibrant global community.</p>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission">
+        <div class="container">
+            <div class="mission-content">
+                <div class="mission-text">
+                    <h3>Our Mission</h3>
+                    <p>At Standeva, we believe that innovation thrives when brilliant minds come together to solve real-world problems. Our mission is to create an ecosystem where developers, designers, and tech enthusiasts can learn, build, and connect.</p>
+                    <p>We provide the platform, resources, and community support needed to transform ideas into impactful solutions. Through our hackathons, bootcamps, and networking events, we're building the future of technology, one innovator at a time.</p>
+                    <p>Whether you're a beginner taking your first steps in tech or an experienced professional looking to make a difference, Standeva is your launchpad to success.</p>
+                </div>
+                <div class="mission-image">
+                    <img src="/images/Standeva-30.jpg" alt="Our Mission">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Values</h2>
+                <p>The principles that guide everything we do at Standeva</p>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Innovation</h3>
+                    <p>We foster creativity and encourage bold thinking. Every challenge is an opportunity to innovate and create solutions that make a real difference in the world.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community</h3>
+                    <p>We believe in the power of collaboration. Our diverse community brings together people from all backgrounds to learn from each other and grow together.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Learning</h3>
+                    <p>Continuous learning is at the heart of what we do. We provide world-class education and mentorship to help our community members reach their full potential.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Impact</h3>
+                    <p>We're committed to creating positive change. Our programs focus on solving real-world problems and building solutions that benefit society.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Integrity</h3>
+                    <p>We operate with transparency, honesty, and respect. Trust is the foundation of our community, and we work hard to maintain it every day.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Excellence</h3>
+                    <p>We strive for excellence in everything we do. From our events to our educational content, we maintain the highest standards of quality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Story</h2>
+                <p>The journey of how Standeva came to be and where we're heading</p>
+            </div>
+            
+            <div class="story-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2020</div>
+                    <h3>The Beginning</h3>
+                    <p>Standeva was founded with a simple vision: to democratize access to tech education and create opportunities for innovation. Our first hackathon brought together 50 passionate developers who shared our belief in the power of collaboration.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2021</div>
+                    <h3>Growing Community</h3>
+                    <p>We launched our first bootcamp program and expanded our hackathon series. Our community grew to over 5,000 members across 20 countries, proving that great ideas know no boundaries.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2022</div>
+                    <h3>Global Expansion</h3>
+                    <p>Standeva went global with hybrid events and partnerships with leading tech companies. We hosted our largest hackathon yet, with over 2,000 participants and $100,000 in prizes.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2023</div>
+                    <h3>Innovation Hub</h3>
+                    <p>We established our innovation hub and launched specialized tracks in AI, blockchain, and sustainability. Our alumni network reached 25,000 members, with many launching successful startups.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2024</div>
+                    <h3>Impact at Scale</h3>
+                    <p>Standeva reached 50,000 community members and launched our corporate partnership program. We've now facilitated over 200 hackathons and trained thousands of developers worldwide.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2025</div>
+                    <h3>The Future</h3>
+                    <p>We're expanding our educational offerings with AI-powered learning paths and launching our venture fund to support promising startups from our community. The best is yet to come.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>50K+</h3>
+                    <p>Community Members</p>
+                </div>
+                <div class="stat-item">
+                    <h3>200+</h3>
+                    <p>Hackathons Hosted</p>
+                </div>
+                <div class="stat-item">
+                    <h3>95%</h3>
+                    <p>Job Placement Rate</p>
+                </div>
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>Partner Companies</p>
+                </div>
+                <div class="stat-item">
+                    <h3>$2M+</h3>
+                    <p>Prizes Awarded</p>
+                </div>
+                <div class="stat-item">
+                    <h3>50+</h3>
+                    <p>Countries Reached</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team">
+        <div class="container">
+            <div class="section-title">
+                <h2>Meet Our Team</h2>
+                <p>The passionate individuals driving innovation at Standeva</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-image">
+                        <img src="/placeholder.svg?height=250&width=300" alt="Sarah Chen">
+                    </div>
+                    <div class="team-content">
+                        <h3>Sarah Chen</h3>
+                        <div class="team-role">CEO & Founder</div>
+                        <p>Former Google engineer with a passion for education and innovation. Sarah founded Standeva to democratize access to tech opportunities worldwide.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-image">
+                        <img src="/placeholder.svg?height=250&width=300" alt="Marcus Johnson">
+                    </div>
+                    <div class="team-content">
+                        <h3>Marcus Johnson</h3>
+                        <div class="team-role">CTO</div>
+                        <p>Full-stack developer and AI enthusiast. Marcus leads our technical team and oversees the development of our platform and educational content.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-image">
+                        <img src="/placeholder.svg?height=250&width=300" alt="Elena Rodriguez">
+                    </div>
+                    <div class="team-content">
+                        <h3>Elena Rodriguez</h3>
+                        <div class="team-role">Head of Community</div>
+                        <p>Community builder and event organizer extraordinaire. Elena ensures our global community feels connected and supported in their tech journey.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-image">
+                        <img src="/placeholder.svg?height=250&width=300" alt="David Kim">
+                    </div>
+                    <div class="team-content">
+                        <h3>David Kim</h3>
+                        <div class="team-role">Head of Education</div>
+                        <p>Former university professor and curriculum designer. David creates our world-class bootcamp programs and ensures the highest quality of education.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-medium"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Get in Touch</h2>
+                <p>Have questions or want to partner with us? We'd love to hear from you</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's Connect</h3>
+                    <p>Whether you're interested in joining our community, partnering with us, or just want to learn more about what we do, we're here to help. Reach out to us through any of the channels below.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>hello@standeva.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Address</h4>
+                                <p>123 Innovation Street<br>Tech District, CA 94105</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Office Hours</h4>
+                                <p>Monday - Friday<br>9:00 AM - 6:00 PM PST</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="hackathon">Hackathon Question</option>
+                                <option value="bootcamp">Bootcamp Information</option>
+                                <option value="support">Technical Support</option>
+                                <option value="media">Media Inquiry</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Tell us how we can help you" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Standeva</h3>
+                    <p>Empowering the next generation of tech innovators through hackathons, training, and community.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Programs</h3>
+                    <ul>
+                        <li><a href="hackathons.html">Hackathons</a></li>
+                        <li><a href="#">Bootcamps</a></li>
+                        <li><a href="#">Workshops</a></li>
+                        <li><a href="#">Mentorship</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Community</h3>
+                    <ul>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">Slack</a></li>
+                        <li><a href="#">Forums</a></li>
+                        <li><a href="#">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Standeva. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-menu a');
+
+        // Toggle mobile menu
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileNavOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileNavOverlay.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close mobile menu when clicking on links
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        mobileNavOverlay.addEventListener('click', (e) => {
+            if (e.target === mobileNavOverlay) {
+                mobileMenu.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(15, 17, 39, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = '#0f1127';
+                header.style.backdropFilter = 'none';
+            }
+        });
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Add loading state
+            const submitBtn = this.querySelector('.btn-primary');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert('Thank you for your message! We\'ll get back to you within 24 hours.');
+                console.log('Form data:', data);
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                this.reset();
+            }, 2000);
+        });
+
+        // Animate stats on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statItems = entry.target.querySelectorAll('.stat-item h3');
+                    statItems.forEach((item, index) => {
+                        const finalValue = parseInt(item.textContent);
+                        const suffix = item.textContent.replace(/[0-9]/g, '');
+                        let currentValue = 0;
+                        const increment = finalValue / 50;
+                        
+                        const timer = setInterval(() => {
+                            currentValue += increment;
+                            if (currentValue >= finalValue) {
+                                currentValue = finalValue;
+                                clearInterval(timer);
+                            }
+                            item.textContent = Math.floor(currentValue) + suffix;
+                        }, 30);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.href === '#' || this.href.endsWith('#')) {
+                    e.preventDefault();
+                }
+                
+                // Add ripple effect
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: rgba(202, 219, 42, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add input focus animations
+        document.querySelectorAll('input, select, textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
