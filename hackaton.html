@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackathons - Standeva</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: #0f1127;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 2rem;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+            background: #cadb2a;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #cadb2a;
+            text-decoration: none;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .nav-menu a:hover {
+            color: #cadb2a;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 0.75rem;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+        }
+
+        .btn-primary {
+            background: #cadb2a;
+            color: #0f1127;
+        }
+
+        .btn-primary:hover {
+            background: #b8c926;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #cadb2a;
+            border: 1.5px solid #cadb2a;
+        }
+
+        .btn-outline:hover {
+            background: #cadb2a;
+            color: #0f1127;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+            position: relative;
+            width: 28px;
+            height: 28px;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mobile-menu span {
+            width: 22px;
+            height: 2.5px;
+            background: #cadb2a;
+            margin: 2.5px 0;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .mobile-menu.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(15, 17, 39, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav-menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .mobile-nav-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-nav-menu li {
+            margin: 1.5rem 0;
+        }
+
+        .mobile-nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: color 0.3s ease;
+            font-family: 'Orbitron', monospace;
+            display: block;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-menu a:hover {
+            color: #cadb2a;
+            background: rgba(202, 219, 42, 0.1);
+        }
+
+        .mobile-cta-buttons {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .mobile-cta-buttons .btn {
+            width: 200px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0f1127 0%, #1a1f3a 100%);
+            color: white;
+            padding: 140px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23cadb2a" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23cadb2a" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="%23cadb2a" opacity="0.1"/><circle cx="10" cy="60" r="1" fill="%23cadb2a" opacity="0.1"/><circle cx="90" cy="40" r="1" fill="%23cadb2a" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .hero .highlight {
+            color: #cadb2a;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Featured Hackathon */
+        .featured-hackathon {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .featured-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(15, 17, 39, 0.1);
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 3rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-5px);
+            border-color: #cadb2a;
+        }
+
+        .featured-image {
+            height: 300px;
+            background: linear-gradient(135deg, #0f1127 0%, #1a1f3a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        .featured-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(15, 17, 39, 0.2), rgba(15, 17, 39, 0.8));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            color: white;
+        }
+
+        .featured-status {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: #cadb2a;
+            color: #0f1127;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+
+        .featured-overlay h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: #cadb2a;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .featured-overlay p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .featured-details {
+            padding: 2rem;
+        }
+
+        .featured-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-item i {
+            color: #cadb2a;
+            font-size: 1.2rem;
+        }
+
+        .meta-item span {
+            font-weight: 600;
+            color: #0f1127;
+        }
+
+        .featured-description {
+            margin-bottom: 2rem;
+        }
+
+        .featured-description h4 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .featured-description p {
+            color: #64748b;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .featured-tracks {
+            margin-bottom: 2rem;
+        }
+
+        .featured-tracks h4 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tracks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .track-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid #cadb2a;
+            transition: all 0.3s ease;
+        }
+
+        .track-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(15, 17, 39, 0.1);
+        }
+
+        .track-card h5 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .track-card p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .featured-stages {
+            margin-bottom: 2rem;
+        }
+
+        .featured-stages h4 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stages-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .stages-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 2px;
+            background: #cadb2a;
+        }
+
+        .stage-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .stage-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #cadb2a;
+            border: 3px solid #f8fafc;
+        }
+
+        .stage-item h5 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stage-item p {
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .stage-date {
+            color: #cadb2a;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .featured-cta {
+            text-align: center;
+            padding: 2rem;
+            background: #f8fafc;
+            border-radius: 0 0 20px 20px;
+        }
+
+        /* Upcoming Hackathons */
+        .upcoming-hackathons {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .hackathons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .hackathon-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(15, 17, 39, 0.1);
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .hackathon-card:hover {
+            transform: translateY(-5px);
+            border-color: #cadb2a;
+        }
+
+        .hackathon-image {
+            height: 200px;
+            background: linear-gradient(135deg, #0f1127 0%, #1a1f3a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hackathon-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        .hackathon-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #cadb2a;
+            color: #0f1127;
+            padding: 0.4rem 0.8rem;
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.7rem;
+        }
+
+        .hackathon-content {
+            padding: 1.5rem;
+        }
+
+        .hackathon-content h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #0f1127;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hackathon-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .hackathon-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+        }
+
+        .hackathon-meta-item i {
+            color: #cadb2a;
+        }
+
+        .hackathon-content p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Past Hackathons */
+        .past-hackathons {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        /* Registration Section */
+        .registration {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #0f1127 0%, #1a1f3a 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .registration .section-title h2 {
+            color: #cadb2a;
+        }
+
+        .registration .section-title p {
+            color: #ffffff;
+            opacity: 0.9;
+        }
+
+        .registration-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(26, 31, 58, 0.8);
+            padding: 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(202, 219, 42, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: #cadb2a;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid rgba(202, 219, 42, 0.3);
+            border-radius: 8px;
+            background: rgba(15, 17, 39, 0.6);
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #cadb2a;
+            box-shadow: 0 0 0 3px rgba(202, 219, 42, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        .form-group select option {
+            background: #0f1127;
+            color: #ffffff;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .faq-item {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(15, 17, 39, 0.1);
+        }
+
+        .faq-item h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0f1127;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .faq-item h3 i {
+            color: #cadb2a;
+        }
+
+        .faq-item p {
+            color: #64748b;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f1127;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 1rem;
+            color: #cadb2a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #cadb2a;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #1a1f3a;
+            padding-top: 2rem;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .cta-buttons {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .nav-container {
+                padding: 0.75rem 1rem;
+                justify-content: space-between;
+            }
+
+            .logo-container {
+                gap: 0.5rem;
+            }
+
+            .logo-text {
+                font-size: 1.3rem;
+                letter-spacing: 1px;
+            }
+
+            .logo-icon {
+                width: 32px;
+                height: 32px;
+            }
+
+            .hero {
+                padding: 120px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .featured-image {
+                height: 200px;
+            }
+
+            .featured-overlay h3 {
+                font-size: 1.8rem;
+            }
+
+            .featured-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .tracks-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hackathons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+
+            .featured-overlay {
+                padding: 1.5rem;
+            }
+
+            .featured-status {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.7rem;
+            }
+
+            .featured-details {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0.5rem 1rem;
+            }
+
+            .logo-text {
+                font-size: 1.1rem;
+                letter-spacing: 0.5px;
+            }
+
+            .logo-icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            .hero {
+                padding: 100px 0 50px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+                letter-spacing: 1px;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .featured-image {
+                height: 180px;
+            }
+
+            .featured-overlay h3 {
+                font-size: 1.5rem;
+            }
+
+            .featured-overlay p {
+                font-size: 1rem;
+            }
+
+            .featured-details {
+                padding: 1.25rem;
+            }
+
+            .featured-description h4,
+            .featured-tracks h4,
+            .featured-stages h4 {
+                font-size: 1.3rem;
+            }
+
+            .track-card {
+                padding: 1.25rem;
+            }
+
+            .track-card h5 {
+                font-size: 1.1rem;
+            }
+
+            .stage-item h5 {
+                font-size: 1.1rem;
+            }
+
+            .mobile-nav-menu a {
+                font-size: 1.1rem;
+                letter-spacing: 1px;
+            }
+
+            .mobile-cta-buttons .btn {
+                width: 180px;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.8rem;
+            }
+
+            .registration-form {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .logo-text {
+                font-size: 1rem;
+            }
+
+            .logo-icon {
+                width: 26px;
+                height: 26px;
+            }
+
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+
+            .mobile-nav-menu a {
+                font-size: 1rem;
+            }
+
+            .mobile-cta-buttons .btn {
+                width: 160px;
+                font-size: 0.75rem;
+            }
+
+            .featured-image {
+                height: 160px;
+            }
+
+            .featured-overlay h3 {
+                font-size: 1.3rem;
+            }
+
+            .featured-overlay p {
+                font-size: 0.9rem;
+            }
+
+            .featured-status {
+                font-size: 0.65rem;
+                padding: 0.3rem 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <img src="/images/standevalogo.jpg" alt="Standeva Logo">
+                </div>
+                <a href="index.html" class="logo-text">Standeva</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#hackathons">Hackathons</a></li>
+                <li><a href="index.html#training">Training</a></li>
+                <li><a href="index.html#community">Community</a></li>
+                <li><a href="index.html#events">Events</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+            <div class="cta-buttons">
+                <a href="sign-in.html" class="btn btn-outline">Sign In</a>
+                <a href="join.html" class="btn btn-primary">Join Now</a>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+        
+        <!-- Mobile Navigation Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <div class="mobile-nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#hackathons">Hackathons</a></li>
+                    <li><a href="index.html#training">Training</a></li>
+                    <li><a href="index.html#community">Community</a></li>
+                    <li><a href="index.html#events">Events</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                </ul>
+                <div class="mobile-cta-buttons">
+                    <a href="sign-in.html" class="btn btn-outline">Sign In</a>
+                    <a href="join.html" class="btn btn-primary">Join Now</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1><span class="highlight">Hackathons</span> at Standeva</h1>
+            <p>Collaborate, innovate, and build solutions to real-world problems. Join our hackathons and showcase your skills to the world.</p>
+            <div class="hero-buttons">
+                <a href="#featured" class="btn btn-primary btn-large">Current Hackathon</a>
+                <a href="#registration" class="btn btn-outline btn-large">Register Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Hackathon -->
+    <section class="featured-hackathon" id="featured">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Hackathon</h2>
+                <p>Our current flagship event bringing together the brightest minds to solve global challenges</p>
+            </div>
+            
+            <div class="featured-card">
+                <div class="featured-image">
+                    <img src="/images/j383yrpjc4khbnn2urg1fnxarjsc.webp" alt="Global Impact Hackathon">
+                    <div class="featured-overlay">
+                        <div class="featured-status">Registration Open</div>
+                        <h3>Global Impact Hackathon 2025</h3>
+                        <p>Building solutions for a sustainable future</p>
+                    </div>
+                </div>
+                
+                <div class="featured-details">
+                    <div class="featured-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>June 15-30, 2025</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Online & In-person (Hybrid)</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-trophy"></i>
+                            <span>$50,000 in Prizes</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-users"></i>
+                            <span>2-5 Members per Team</span>
+                        </div>
+                    </div>
+                    
+                    <div class="featured-description">
+                        <h4>About the Hackathon</h4>
+                        <p>The Global Impact Hackathon 2025 brings together developers, designers, and innovators to create solutions addressing critical global challenges. This year's focus is on sustainable development, digital inclusion, and climate action.</p>
+                        <p>Teams will have two weeks to develop their projects, with mentorship sessions, workshops, and networking opportunities throughout the event. The hackathon will conclude with a demo day where teams will present their solutions to a panel of judges from leading tech companies and venture capital firms.</p>
+                    </div>
+                    
+                    <div class="featured-tracks">
+                        <h4>Challenge Tracks</h4>
+                        <div class="tracks-grid">
+                            <div class="track-card">
+                                <h5>Track A: Digital Maternal Health Support</h5>
+                                <p>Create innovative solutions to improve maternal health outcomes through digital technologies, focusing on accessibility and effectiveness.</p>
+                            </div>
+                            <div class="track-card">
+                                <h5>Track B: Data-driven Food Security</h5>
+                                <p>Develop data-driven applications to address food security challenges, from production optimization to distribution and waste reduction.</p>
+                            </div>
+                            <div class="track-card">
+                                <h5>Track C: Combating Digital Misinformation</h5>
+                                <p>Build tools and platforms to identify, flag, and reduce the spread of misinformation in digital spaces, promoting information integrity.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="featured-stages">
+                        <h4>Hackathon Timeline</h4>
+                        <div class="stages-timeline">
+                            <div class="stage-item">
+                                <h5>Team Registration</h5>
+                                <p>Register your team and select your preferred challenge track.</p>
+                                <div class="stage-date">June 1-14, 2025</div>
+                            </div>
+                            <div class="stage-item">
+                                <h5>Stage 1: Idea Submission</h5>
+                                <p>Submit your initial pitch and mockup (worth 2 points).</p>
+                                <div class="stage-date">June 15-21, 2025</div>
+                            </div>
+                            <div class="stage-item">
+                                <h5>Feedback Workshop</h5>
+                                <p>Receive expert feedback on your idea and guidance for prototype development.</p>
+                                <div class="stage-date">June 22, 2025</div>
+                            </div>
+                            <div class="stage-item">
+                                <h5>Stage 2: Prototype Development</h5>
+                                <p>Build a basic MVP of your solution.</p>
+                                <div class="stage-date">June 23-29, 2025</div>
+                            </div>
+                            <div class="stage-item">
+                                <h5>Final Presentations & Judging</h5>
+                                <p>Present your solution to our panel of judges.</p>
+                                <div class="stage-date">June 30, 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-cta">
+                    <a href="#registration" class="btn btn-primary btn-large">Register Your Team</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Hackathons -->
+    <section class="upcoming-hackathons" id="hackathons">
+        <div class="container">
+            <div class="section-title">
+                <h2>Upcoming Hackathons</h2>
+                <p>Mark your calendar for these exciting upcoming events</p>
+            </div>
+            
+            <div class="hackathons-grid">
+                <div class="hackathon-card">
+                    <div class="hackathon-image">
+                        <img src="/images/p1w9ocxwqr1k3le943fkxkzynre5.webp" alt="AI for Good Hackathon">
+                        <div class="hackathon-status">Coming Soon</div>
+                    </div>
+                    <div class="hackathon-content">
+                        <h3>AI for Good Hackathon</h3>
+                        <div class="hackathon-meta">
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>August 10-12, 2025</span>
+                            </div>
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Online</span>
+                            </div>
+                        </div>
+                        <p>Develop AI solutions that address social and environmental challenges. Focus areas include climate change, healthcare accessibility, and education.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="hackathon-card">
+                    <div class="hackathon-image">
+                        <img src="/images/vgpy35mxntchpkdrr1sxob0nr1yh.webp" alt="Fintech Innovation Challenge">
+                        <div class="hackathon-status">Coming Soon</div>
+                    </div>
+                    <div class="hackathon-content">
+                        <h3>Fintech Innovation Challenge</h3>
+                        <div class="hackathon-meta">
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>September 5-7, 2025</span>
+                            </div>
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Hybrid</span>
+                            </div>
+                        </div>
+                        <p>Create innovative financial technology solutions that promote financial inclusion, security, and efficiency in the digital economy.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="hackathon-card">
+                    <div class="hackathon-image">
+                        <img src="/images/vosk6fpn2s5w40sazwtw3ffg7qt9.webp" alt="Smart Cities Hackathon">
+                        <div class="hackathon-status">Coming Soon</div>
+                    </div>
+                    <div class="hackathon-content">
+                        <h3>Smart Cities Hackathon</h3>
+                        <div class="hackathon-meta">
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>October 15-17, 2025</span>
+                            </div>
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>In-person</span>
+                            </div>
+                        </div>
+                        <p>Build solutions that make cities smarter, more sustainable, and more livable. Focus on transportation, energy, waste management, and public services.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Past Hackathons -->
+    <section class="past-hackathons">
+        <div class="container">
+            <div class="section-title">
+                <h2>Past Hackathons</h2>
+                <p>Explore our previous events and the amazing solutions that emerged</p>
+            </div>
+            
+            <div class="hackathons-grid">
+                <div class="hackathon-card">
+                    <div class="hackathon-image">
+                        <img src="/images/vgpy35mxntchpkdrr1sxob0nr1yh.webp" alt="Health Tech Hackathon">
+                        <div class="hackathon-status">Completed</div>
+                    </div>
+                    <div class="hackathon-content">
+                        <h3>Health Tech Hackathon</h3>
+                        <div class="hackathon-meta">
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>January 2025</span>
+                            </div>
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-trophy"></i>
+                                <span>120 Teams</span>
+                            </div>
+                        </div>
+                        <p>Teams developed innovative solutions for healthcare challenges, from patient monitoring to medical data management.</p>
+                        <a href="#" class="btn btn-outline">View Projects</a>
+                    </div>
+                </div>
+                
+                <div class="hackathon-card">
+                    <div class="hackathon-image">
+                        <img src="/images/j383yrpjc4khbnn2urg1fnxarjsc.webp" alt="Blockchain Revolution">
+                        <div class="hackathon-status">Completed</div>
+                    </div>
+                    <div class="hackathon-content">
+                        <h3>Blockchain Revolution</h3>
+                        <div class="hackathon-meta">
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>November 2024</span>
+                            </div>
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-trophy"></i>
+                                <span>85 Teams</span>
+                            </div>
+                        </div>
+                        <p>Participants created blockchain-based solutions for supply chain transparency, digital identity, and decentralized finance.</p>
+                        <a href="#" class="btn btn-outline">View Projects</a>
+                    </div>
+                </div>
+                
+                <div class="hackathon-card">
+                    <div class="hackathon-image">
+                        <img src="/images/p1w9ocxwqr1k3le943fkxkzynre5.webp" alt="EdTech Innovation">
+                        <div class="hackathon-status">Completed</div>
+                    </div>
+                    <div class="hackathon-content">
+                        <h3>EdTech Innovation</h3>
+                        <div class="hackathon-meta">
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>September 2024</span>
+                            </div>
+                            <div class="hackathon-meta-item">
+                                <i class="fas fa-trophy"></i>
+                                <span>95 Teams</span>
+                            </div>
+                        </div>
+                        <p>Teams built educational technology solutions to make learning more accessible, engaging, and effective for students of all ages.</p>
+                        <a href="#" class="btn btn-outline">View Projects</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section class="registration" id="registration">
+        <div class="container">
+            <div class="section-title">
+                <h2>Register Your Team</h2>
+                <p>Join the Global Impact Hackathon 2025 and start your journey to innovation</p>
+            </div>
+            
+            <div class="registration-form">
+                <form id="hackathonRegistration">
+                    <div class="form-group">
+                        <label for="teamName">Team Name</label>
+                        <input type="text" id="teamName" name="teamName" placeholder="Enter your team name" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="teamLeaderName">Team Leader Name</label>
+                            <input type="text" id="teamLeaderName" name="teamLeaderName" placeholder="Enter team leader's name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="teamLeaderEmail">Team Leader Email</label>
+                            <input type="email" id="teamLeaderEmail" name="teamLeaderEmail" placeholder="Enter team leader's email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="teamSize">Team Size</label>
+                        <select id="teamSize" name="teamSize" required>
+                            <option value="">Select team size</option>
+                            <option value="2">2 Members</option>
+                            <option value="3">3 Members</option>
+                            <option value="4">4 Members</option>
+                            <option value="5">5 Members</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="challengeTrack">Challenge Track</label>
+                        <select id="challengeTrack" name="challengeTrack" required>
+                            <option value="">Select challenge track</option>
+                            <option value="track-a">Track A: Digital Maternal Health Support</option>
+                            <option value="track-b">Track B: Data-driven Food Security</option>
+                            <option value="track-c">Track C: Combating Digital Misinformation</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="participationType">Participation Type</label>
+                        <select id="participationType" name="participationType" required>
+                            <option value="">Select participation type</option>
+                            <option value="online">Online</option>
+                            <option value="in-person">In-person</option>
+                            <option value="hybrid">Hybrid</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="projectIdea">Brief Project Idea (Optional)</label>
+                        <textarea id="projectIdea" name="projectIdea" rows="4" placeholder="Share a brief description of your project idea"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-large">Register Now</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find answers to common questions about our hackathons</p>
+            </div>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Who can participate?</h3>
+                    <p>Anyone with a passion for technology and innovation can participate! Whether you're a student, professional, or hobbyist, our hackathons are open to all skill levels and backgrounds.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Do I need to have a team?</h3>
+                    <p>While having a team is recommended, we also offer team formation opportunities before the event. You can register as an individual, and we'll help you find teammates with complementary skills.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> What should I bring?</h3>
+                    <p>For in-person events, bring your laptop, charger, and any other equipment you might need. For online events, ensure you have a stable internet connection and the necessary software installed.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Are there any costs to participate?</h3>
+                    <p>Most of our hackathons are free to participate in. For some premium events, there might be a nominal registration fee, which is always clearly indicated on the event page.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> What kind of support will be provided?</h3>
+                    <p>We provide mentorship, technical workshops, API access from our sponsors, and networking opportunities throughout the event. For in-person events, we also provide meals and refreshments.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Who owns the intellectual property?</h3>
+                    <p>You and your team retain full ownership of everything you build at our hackathons. We do request the right to showcase your project for promotional purposes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Standeva</h3>
+                    <p>Empowering the next generation of tech innovators through hackathons, training, and community.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Programs</h3>
+                    <ul>
+                        <li><a href="#">Hackathons</a></li>
+                        <li><a href="#">Bootcamps</a></li>
+                        <li><a href="#">Workshops</a></li>
+                        <li><a href="#">Mentorship</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Community</h3>
+                    <ul>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">Slack</a></li>
+                        <li><a href="#">Forums</a></li>
+                        <li><a href="#">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Standeva. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-menu a');
+
+        // Toggle mobile menu
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileNavOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileNavOverlay.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close mobile menu when clicking on links
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        mobileNavOverlay.addEventListener('click', (e) => {
+            if (e.target === mobileNavOverlay) {
+                mobileMenu.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(15, 17, 39, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = '#0f1127';
+                header.style.backdropFilter = 'none';
+            }
+        });
+
+        // Form submission
+        document.getElementById('hackathonRegistration').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Add loading state
+            const submitBtn = this.querySelector('.btn-primary');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Registering...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert('Registration successful! You will receive a confirmation email shortly.');
+                console.log('Form data:', data);
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                this.reset();
+            }, 2000);
+        });
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.href === '#' || this.href.endsWith('#')) {
+                    e.preventDefault();
+                }
+                
+                // Add ripple effect
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: rgba(202, 219, 42, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add input focus animations
+        document.querySelectorAll('input, select, textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
